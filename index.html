@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Películas</title>
+</head>
+<body>
+    <h1>Listado de Películas</h1>
+    <section id="movies"></section>
+    <style>
+        body{
+            width: 100vw;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color:beige;
+            font-size: medium;
+            background-color: black;
+            margin: 10px;
+        }
+        #movies{
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-around;
+            gap: 25px;
+        }
+        div{
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            border: 2px solid beige;
+            align-content: center;
+            align-items: center;
+            justify-content: center;
+            justify-items: center;
+        }
+        div .img{
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            padding: auto;
+        }
+    </style>
+
+    <script>
+        fetch('http://localhost:8080/movies')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('movies');
+                data.forEach(movie => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <h2>${movie.title} (${movie.year})</h2>
+                        <img src="${movie.poster}" alt="${movie.title}" width="320"/>
+                        <p>Director: ${movie.director}</p>
+                        <p>Géneros: ${movie.genre ? movie.genre.join(', ') : ''}</p>
+                        <p>Nota: ${movie.rate}</p>
+                        <hr/>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+    </script>
+</body>
+</html>
